@@ -82,6 +82,15 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     verte, bleue et à ressort. La probabilité restante correspond à une
     plateforme marron.
     """
+    random_value = random.random()
+    if random_value < green_probability:
+        return "green"
+    elif random_value < green_probability + blue_probability:
+        return "blue"
+    elif random_value < green_probability + blue_probability + spring_probability:
+        return "spring"
+    else:
+        return "brown"
 
     # TODO : Utilisez random.random() et les probabilités reçues en paramètres
     # pour retourner l'une des chaînes suivantes :
@@ -89,8 +98,5 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     #
     # Attention : les seuils utilisés avec random.random() doivent être
     # cumulatifs.
-
-    return "green"  # Valeur temporaire à remplacer
-
 # ===========================================================
 
