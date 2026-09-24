@@ -103,6 +103,33 @@ def check_platform_collisions():
     # - spring : SPRING_JUMP_VELOCITY ;
     # - brown : JUMP_VELOCITY puis désactivation de la plateforme ;
     # - green/blue : JUMP_VELOCITY.
+    # 1. Pas de rebond pendant la montée
+    if doodle_dict["vel_y"] <= 0:
+        return
+
+    doodle_rect = (doodle_dict["x"], doodle_dict["y"], DOODLE_WIDTH, DOODLE_HEIGHT)
+    feet = doodle_dict["y"] + DOODLE_HEIGHT
+    previous_feet = feet - doodle_dict["vel_y"]
+
+    for p in PLATFORMS:
+        # 2. Ignorer les plateformes cassées
+        if not p["active"]:
+            continue
+
+        platform_rect = (p["x"], p["y"], p["width"], p["height"])
+
+        # 3. Chevauchement  +  4. Arrivée par le dessus
+        if rects_collide(doodle_rect, platform_rect) and previous_feet <= p["y"] + 14:
+
+            if p["type"] == "spring":
+                doodle_dict["vel_y"] = SPRING_JUMP_VELOCITY
+            elif p["type"] == "brown":
+                doodle_dict["vel_y"] = JUMP_VELOCITY
+                p["active"] = False
+            else:
+                doodle_dict["vel_y"] = JUMP_VELOCITY
+
+            return   # un seul rebond par appel
 
     return
 
