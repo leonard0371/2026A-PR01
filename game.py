@@ -50,7 +50,7 @@ def move_doodle():
     # TODO : Implémentez le Screen Wrap pour qu'une partie du Doodle puisse
     # sortir d'un côté avant de réapparaître de l'autre.
     # N'utilisez pas de dimensions numériques écrites directement.
-    
+
     if doodle_dict["x"] < -DOODLE_WIDTH // 2:
          doodle_dict["x"] = SCREEN_WIDTH - DOODLE_WIDTH // 2
     elif doodle_dict["x"] > SCREEN_WIDTH - DOODLE_WIDTH // 2: 
@@ -71,7 +71,11 @@ def move_platforms():
     # TODO : Parcourez les plateformes et gérez le déplacement des plateformes
     # bleues encore actives. Elles doivent rester dans la fenêtre en inversant
     # leur vitesse lorsqu'elles atteignent un bord.
-
+    for platform in PLATFORMS:
+        if platform["type"] == "blue" and platform["active"]:
+            platform["x"] += platform["vx"]
+            if platform["x"] < 0 or platform["x"] + platform["width"] > SCREEN_WIDTH:
+                platform["vx"] *= -1  # Inverse la direction de la vitesse
     return
 
 # ===========================================================
