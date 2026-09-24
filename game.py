@@ -38,12 +38,23 @@ def move_doodle():
     # TODO : Gérez les déplacements gauche/droite et mettez à jour
     # simultanément la direction et l'image du Doodle.
 
+    if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        doodle_dict["x"] -= DOODLE_SPEED
+        doodle_dict["direction"] = "left"
+        doodle_dict["image"] = doodle_left_img
 
-
+    elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:  #si j'avais mis if au lieu de elif, le doodle se déplacerait à gauche et à droite en même temps. 
+        doodle_dict["x"] += DOODLE_SPEED
+        doodle_dict["direction"] = "right"
+        doodle_dict["image"] = doodle_right_img
     # TODO : Implémentez le Screen Wrap pour qu'une partie du Doodle puisse
     # sortir d'un côté avant de réapparaître de l'autre.
     # N'utilisez pas de dimensions numériques écrites directement.
-
+    
+    if doodle_dict["x"] < -DOODLE_WIDTH // 2:
+         doodle_dict["x"] = SCREEN_WIDTH - DOODLE_WIDTH // 2
+    elif doodle_dict["x"] > SCREEN_WIDTH - DOODLE_WIDTH // 2: 
+         doodle_dict["x"] = -DOODLE_WIDTH // 2
 
 
     return
