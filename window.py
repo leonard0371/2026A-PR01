@@ -35,7 +35,7 @@ def generate_initial_platforms():
     )
     PLATFORMS.append(start_platform)
 
-    current_y = DOODLE_START_Y + 70 - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)  #hauteur de la prochaine plateforme à créer.
+    current_y = DOODLE_START_Y + 70 - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)  
 
     # ======================== PARTIE 2.2 ========================
     # TODO : Ajoutez des plateformes jusqu'à ce que la partie supérieure

@@ -150,6 +150,36 @@ def scroll_camera():
     # meilleur score doit être mis à jour. Les plateformes sorties sous
     # l'écran doivent être retirées, puis de nouvelles plateformes générées.
 
+
+    # Le Doodle n'a pas dépassé la ligne : rien à faire
+    if doodle_dict["y"] >= CAMERA_SCROLL_THRESHOLD:
+        return
+
+    # Distance de défilement
+    distance = CAMERA_SCROLL_THRESHOLD - doodle_dict["y"]
+
+    # 1. Le Doodle reste sur la ligne
+    doodle_dict["y"] = CAMERA_SCROLL_THRESHOLD
+
+    # 2. Toutes les plateformes descendent
+    for p in PLATFORMS:
+        p["y"] += distance
+
+    # 3. et 4. Score et meilleur score
+    doodle_dict["score"] += distance
+    if doodle_dict["score"] > doodle_dict["high_score"]:
+        doodle_dict["high_score"] = doodle_dict["score"]
+
+    # 5. Garder seulement les plateformes encore dans l'écran
+    visible = []
+    for p in PLATFORMS:
+        if p["y"] < SCREEN_HEIGHT:
+            visible.append(p)
+    PLATFORMS[:] = visible
+
+    # 6. Créer de nouvelles plateformes en haut
+    generate_new_platforms()
+
     return
 
 # ===========================================================
