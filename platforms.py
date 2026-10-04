@@ -31,31 +31,18 @@ platform_images = {
 def create_platform(x, y, platform_type="green"):
     """
     Crée et retourne un dictionnaire représentant une plateforme.
-
-    Le dictionnaire ci-dessous représente pour l'instant correctement une
-    plateforme verte. Votre travail consiste à le généraliser afin qu'il
-    représente aussi correctement les plateformes bleues, marron et à ressort.
     """
 
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,
+        "image": platform_images[platform_type],
+        "vx": MOVING_PLATFORM_SPEED if platform_type == "blue" else 0.0,
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height": PLATFORM_SIZE[1] + (10 if platform_type == "spring" else 0)
     }
-
-    # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement
-    # de l'argument platform_type.
-    #
-    # Contraintes :
-    # - l'image doit être obtenue à partir de platform_images ;
-    # - une plateforme bleue se déplace à MOVING_PLATFORM_SPEED ;
-    # - une plateforme à ressort est 10 pixels plus haute ;
-    # - les autres plateformes sont immobiles et gardent la hauteur normale.
 
     return platform
 
@@ -72,14 +59,18 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     plateforme marron.
     """
 
-    # TODO : Utilisez random.random() et les probabilités reçues en paramètres
-    # pour retourner l'une des chaînes suivantes :
-    # "green", "blue", "spring" ou "brown".
-    #
-    # Attention : les seuils utilisés avec random.random() doivent être
-    # cumulatifs.
+    random_value = random.random()
+    green_limit = green_probability
+    blue_limit = green_probability + blue_probability
+    spring_limit = green_probability + blue_probability + spring_probability
 
-    return "green"  # Valeur temporaire à remplacer
+    if random_value < green_limit:
+        return "green"
+    if random_value < blue_limit:
+        return "blue"
+    if random_value < spring_limit:
+        return "spring"
+    return "brown"
 
 # ===========================================================
 
